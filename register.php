@@ -11,22 +11,30 @@ $message = '';
 
 // Handling registration form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    
     $username = $_POST['name'];
-   
     $password = $_POST['password'];
 
+    $image = $_FILES['userimage']['name'];
+
+    $from = $_FILES['userimage']['tmp_name'];
+    $to = 'uploads/'.$image;
+
+    move_uploaded_file( $from , $to  );
+
     // Register the user
-    $result = User::register($conn, $username,$password);
+    $result = User::register($conn, $username,$password,$image);
 
     if ($result) {
         $message = "Registration successful! <a class='btn btn-outline-success p-2' href='login.php'>Login Here</a>";
-        
     } else {
         $message = "Registration failed.";
     }
 }
 
 mysqli_close($conn);
+
 ?>
 
 <div class="container">
@@ -37,7 +45,7 @@ mysqli_close($conn);
                 <p class="text-success text-center rounded border border-success"> <?= $message ?> </p>
             <?php endif ;?>  
             <!-- HTML Form -->
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
                 <!-- Username Input -->
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -50,6 +58,12 @@ mysqli_close($conn);
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="file" class="form-label">Upload Image</label>
+                    <input type="file" name="userimage" id="file">
+                </div>
+
 
                 <!-- Submit Button -->
                 <div class="d-grid gap-2">

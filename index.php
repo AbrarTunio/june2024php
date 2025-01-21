@@ -50,7 +50,7 @@ $programmings = Program::getAll( $conn );
                 </div>
             </div>
             <div class="col-md-4">
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <input type="text" hidden name="id" value="<?= $onebyone['id']?>" >
                     <input class="btn btn-danger" type="submit" value="Delete">
                 </form>

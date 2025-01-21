@@ -3,15 +3,15 @@
 class User
 {
     // Create User (Registration)
-    public static function register($conn, $username,  $password)
+    public static function register($conn, $username,  $password , $image)
     {
         // Hash password using BCRYPT
         // $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         // Insert new user into the database
-        $qry = "INSERT INTO users (name, password) VALUES (?, ?)";
+        $qry = "INSERT INTO users (name, password, images) VALUES (?, ? , ?)";
         $stmt = mysqli_prepare($conn, $qry);
-        mysqli_stmt_bind_param($stmt, 'ss', $username,  $password);
+        mysqli_stmt_bind_param($stmt, 'sss', $username,  $password, $image);
 
         if (mysqli_stmt_execute($stmt)) {
             return true; // Registration successful
